@@ -7,9 +7,13 @@ const mongoose = require("mongoose");
 const { routeLogin } = require("./route/login/login");
 const dotenv = require("dotenv");
 const { routeMenu } = require("./route/menu/menu");
+const { registerUser } = require("./model/register");
+const bcrypt = require("bcryptjs");
+const jsonwebtoken = require("jsonwebtoken");
 dotenv.config();
 
-const dbURI = "mongodb://localhost:27017/NEXTJS-ECOM"; // Địa chỉ MongoDB trên localhost
+const dbURI =
+  "mongodb+srv://dtn04999:HYXLI8lOVW9PFkr5@cluster0.jp8rc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Địa chỉ MongoDB trên localhost
 
 // Kết nối MongoDB
 mongoose
@@ -25,25 +29,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: `${process.env.URL_NEXTJS}`,
-    credentials: true,
-    allowedHeaders: ["Content-Type"],
+    origin: "*", // Cho phép tất cả các domain
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Các phương thức HTTP cho phép
+    allowedHeaders: ["Content-Type", "Authorization"], // Các header cho phép
   })
 );
-
-app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", process.env.URL_NEXTJS);
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS,PUT, PATCH,DELETE"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With, content-type"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
-});
 
 app.use(cookieParser());
 app.use(express.json());
@@ -53,6 +43,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.json("nghia");
 });
+
 app.use("/addProduct", routeProduct);
 app.use("/register", routeRegisterUser);
 app.use("/login", routeLogin);
