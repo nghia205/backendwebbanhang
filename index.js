@@ -7,9 +7,7 @@ const mongoose = require("mongoose");
 const { routeLogin } = require("./route/login/login");
 const dotenv = require("dotenv");
 const { routeMenu } = require("./route/menu/menu");
-const { registerUser } = require("./model/register");
-const bcrypt = require("bcryptjs");
-const jsonwebtoken = require("jsonwebtoken");
+
 dotenv.config();
 
 const dbURI =
