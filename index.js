@@ -29,7 +29,8 @@ app.use(
   cors({
     origin: "*", // Cho phép tất cả các domain
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Các phương thức HTTP cho phép
-    allowedHeaders: ["Content-Type", "Authorization"], // Các header cho phép
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Các header cho phép
   })
 );
 

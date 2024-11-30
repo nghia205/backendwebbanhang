@@ -3,15 +3,13 @@ const bcrypt = require("bcryptjs");
 const jsonwebtoken = require("jsonwebtoken");
 
 const login = async (req, res) => {
+  res.json("LOGINNNN");
   try {
     const user = await registerUser.findOne({ email: req.body.email });
     if (!user) {
       return res.status(404).json("Wrong email!");
     }
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
+    const validPassword = bcrypt.compare(req.body.password, user.password);
 
     if (!validPassword) {
       return res.status(404).json("Wrong password!");
