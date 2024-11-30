@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 const jsonwebtoken = require("jsonwebtoken");
 
 const login = async (req, res) => {
-  res.json("LOGINNNN");
   try {
     const user = await registerUser.findOne({ email: req.body.email });
     if (!user) {
@@ -31,7 +30,8 @@ const login = async (req, res) => {
           expiresIn: "7d",
         }
       );
-
+      console.log("Payload:", payload);
+      console.log("Access Token:", accessToken);
       return res
         .cookie("accessToken", accessToken, {
           httpOnly: true,
