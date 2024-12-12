@@ -26,7 +26,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Cho phép tất cả các domain
+    origin: `${process.env.URL_NEXTJS}}`, // Cho phép tất cả các domain
     credentials: true, // Các header cho phép
   })
 );
