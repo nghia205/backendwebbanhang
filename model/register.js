@@ -4,6 +4,13 @@ const Schema = mongoose.Schema;
 // Tạo schema cho một người dùng
 const registerUserSchema = new Schema(
   {
+    user: {
+      type: String,
+      require: true,
+      unique: true,
+      minlength: 6,
+      maxlength: 20,
+    },
     email: {
       type: String,
       require: true,

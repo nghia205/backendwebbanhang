@@ -8,7 +8,10 @@ const login = async (req, res) => {
     if (!user) {
       return res.status(404).json("Wrong email!");
     }
-    const validPassword = bcrypt.compare(req.body.password, user.password);
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
 
     if (!validPassword) {
       return res.status(404).json("Wrong password!");
@@ -18,6 +21,8 @@ const login = async (req, res) => {
       const payload = {
         id: user.id,
         admin: user.admin,
+        user: user.user,
+        email: user.email,
       };
 
       const accessToken = jsonwebtoken.sign(payload, process.env.JWT_SECRET, {
@@ -30,21 +35,23 @@ const login = async (req, res) => {
           expiresIn: "7d",
         }
       );
-      console.log("Payload:", payload);
-      console.log("Access Token:", accessToken);
       return res
         .cookie("accessToken", accessToken, {
           httpOnly: true,
-          secure: true,
-          sameSite: "Strict",
+          secure: false,
+          sameSite: "lax",
         })
         .cookie("refreshToken", refresh_Token, {
           httpOnly: true,
-          secure: true,
-          sameSite: "Strict",
+          secure: false,
+          sameSite: "lax",
         })
         .status(200)
-        .json("Login successful");
+        .json({
+          accessToken,
+          refresh_Token,
+          payload,
+        });
     }
   } catch (err) {
     res.status(500).json(err);

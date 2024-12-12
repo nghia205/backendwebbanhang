@@ -5,7 +5,6 @@ const Menu = {
     const result = await menuCollection.findOne();
 
     if (result) {
-      console.log("nhảy vào 0");
       // Tìm xem có phần tử nào trong Menucollection có name trùng với req.body.menuCollection không
       const existingMenu = await menuCollection.findOne({
         "Menucollection.name": req.body.menuCollection,
@@ -19,18 +18,13 @@ const Menu = {
       });
 
       if (existingMenu) {
-        console.log("nhảy vào 1 - Trùng cái thứ 1");
         // Nếu có, thêm SubCollection vào đúng phần tử Menucollection có name trùng
         if (existingSubCollection) {
-          console.log("nhảy vào 2 - trùng cái thứ 2");
-
           if (existingOptionSubCollection) {
-            console.log("trùng cái thứ 3");
             res.json("Trùng Option!");
 
             return;
           } else {
-            console.log("khác cái thứ 3", req.body.SubCollection);
             const document = await menuCollection.findOne({
               "Menucollection.name": req.body.menuCollection,
               "Menucollection.SubCollection.name": req.body.SubCollection,
@@ -70,8 +64,6 @@ const Menu = {
             res.json("Thêm Options mới thành công!");
           }
         } else {
-          console.log("nhảy vào 3 - khác cái thứ 2");
-
           const a = await menuCollection.updateOne(
             {
               "Menucollection.name": req.body.menuCollection,
@@ -89,8 +81,6 @@ const Menu = {
           res.json("Thêm SubCollection và Options mới thành công!");
         }
       } else {
-        console.log("nhảy vào 4 - khác cái thứ 1");
-
         await menuCollection.findOneAndUpdate(
           {},
           {
@@ -110,8 +100,6 @@ const Menu = {
         res.json("Thêm Menucollection mới thành công!");
       }
     } else {
-      res.json("Thêm Document thành công!");
-      console.log("nhảy vào 5 - không có document");
       const menu = new menuCollection({
         Menucollection: [
           {

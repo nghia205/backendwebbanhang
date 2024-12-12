@@ -1,17 +1,16 @@
 const express = require("express");
 const { routeProduct } = require("./route/product");
-const { routeRegisterUser } = require("./route/user/register");
+const { routeMenu } = require("./route/menu/menu");
+const { routeCollection } = require("./route/collection/collection");
+const { routeUser } = require("./route/user");
+
+const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const mongoose = require("mongoose");
-const { routeLogin } = require("./route/login/login");
-const dotenv = require("dotenv");
-const { routeMenu } = require("./route/menu/menu");
-
 dotenv.config();
 
-const dbURI =
-  "mongodb+srv://dtn04999:HYXLI8lOVW9PFkr5@cluster0.jp8rc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Địa chỉ MongoDB trên localhost
+const mongoose = require("mongoose");
+const dbURI = `mongodb+srv://dtn04999:${process.env.PASSWORD_MONGODB_ATLAS}@cluster0.jp8rc.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0`; // Địa chỉ MongoDB trên localhost
 
 // Kết nối MongoDB
 mongoose
@@ -27,9 +26,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*", // Cho phép tất cả các domain
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Các phương thức HTTP cho phép
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: "http://localhost:3000", // Cho phép tất cả các domain
     credentials: true, // Các header cho phép
   })
 );
@@ -43,10 +40,10 @@ app.get("/", (req, res) => {
   res.json("nghia");
 });
 
-app.use("/addProduct", routeProduct);
-app.use("/register", routeRegisterUser);
-app.use("/login", routeLogin);
-app.use("/menu", routeMenu);
+app.use("/", routeMenu);
+app.use("/", routeUser);
+app.use("/", routeProduct);
+app.use("/", routeCollection);
 
 // Sever
 app.listen("8080", () => {

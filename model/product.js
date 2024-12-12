@@ -16,21 +16,21 @@ const productSchema = new Schema(
       type: [String],
       require: true,
     },
+    collection: {
+      type: String,
+      require: true,
+    },
+    subCollection: {
+      type: String,
+    },
+    options: {
+      type: String,
+    },
     description: {
       type: String,
       require: true,
     },
-    category: {
-      type: String,
-      require: true,
-    },
-    productImages: [
-      {
-        filename: String,
-        mimetype: String,
-        data: Buffer,
-      },
-    ],
+    productImages: { type: [String], required: true },
   },
   { timestamps: true }
 );
